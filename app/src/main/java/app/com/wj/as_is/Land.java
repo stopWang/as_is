@@ -217,6 +217,8 @@ public class Land extends Activity implements Analytic_interface{
         {
             Toast.makeText(Land.this, "服务器异常", Toast.LENGTH_SHORT).show();
             Toast.makeText(Land.this, "推你丫的新版本", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Land.this, "推你丫的新版本", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Land.this, "推你丫的新版本", Toast.LENGTH_SHORT).show();
         }
     }
 }
