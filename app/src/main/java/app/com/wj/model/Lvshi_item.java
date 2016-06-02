@@ -2,7 +2,7 @@ package app.com.wj.model;
 
 /**
  * Created by Administrator on 2016/4/28.
- * ÂÉÊ«µÄÊÊÅäÆ÷
+ * å¾‹è¯—çš„æ•°æ®æ¨¡å‹
  */
 public class Lvshi_item {
     private String title;

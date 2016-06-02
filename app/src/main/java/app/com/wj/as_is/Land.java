@@ -80,7 +80,6 @@ public class Land extends Activity implements Analytic_interface{
     }
     public void iviView()
     {
-        
         mydb = new MyDB(this);
         userName = (EditText) findViewById(R.id.userName);
         passWord = (EditText) findViewById(R.id.passWord);

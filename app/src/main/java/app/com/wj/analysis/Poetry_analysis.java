@@ -7,7 +7,7 @@ import app.com.wj.tool.Analytic;
 
 /**
  * Created by Administrator on 2016/5/4.
- * ½âÎöÊ«´ÊÎÄÕÂ
+ * è§£æè¯—è¯json
  */
 public class Poetry_analysis extends Analytic {
     private List<Poetry> data;

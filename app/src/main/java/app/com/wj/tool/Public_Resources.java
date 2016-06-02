@@ -8,7 +8,7 @@ public class Public_Resources {
     /**
      * 服务器地址
      */
-    public final static String URL = "http://192.168.1.222:8080/mytest/";
+    public static String URL = "http://192.168.1.222:8080/mytest/";
     /**
      * 注册接口
      */

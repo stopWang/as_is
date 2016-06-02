@@ -5,7 +5,7 @@ import android.graphics.Rect;
 
 public class Status_bar_height {
 	 /**
-     *   获取状态栏的高度   单位为px！
+     * 鑾峰彇鐘舵�佹爮楂樺害?
      * @param activity
      * @return > 0 success; <= 0 fail
      */
