@@ -149,7 +149,6 @@ public class Land extends Activity implements Analytic_interface{
                     public void onFailure(HttpException e, String s) {
                         btn_ok.setEnabled(true);
                         Toast.makeText(Land.this, "请求失败", Toast.LENGTH_SHORT).show();
-
                     }
                 });
     }
