@@ -1,9 +1,11 @@
 package app.com.wj.as_is;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +18,7 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
+import app.com.wj.MySql.MyDB;
 import app.com.wj.analysis.Poetry_analysis;
 import app.com.wj.tool.Analytic_interface;
 import app.com.wj.tool.Public_Resources;
@@ -26,7 +29,9 @@ import app.com.wj.tool.SwipeBackActivity;
  * 诗词文章详情页
  */
 public class Article_Details extends SwipeBackActivity implements Analytic_interface{
+    private TextView edit_title;
     private TextView tv_title;
+    private TextView edit_text;
     private TextView tv_text;
     private TextView tv_author;
     private TextView tv_zan;
@@ -40,6 +45,9 @@ public class Article_Details extends SwipeBackActivity implements Analytic_inter
     private String comment = "";
     private String url = "";
     private TextView error;
+    private MyDB mydb = null;
+    private Cursor c = null;
+    private String type = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -51,6 +59,21 @@ public class Article_Details extends SwipeBackActivity implements Analytic_inter
         {
             id = (String) b.get("id");
         }
+        mydb = new MyDB(this);
+        c = mydb.query();
+        if(c.moveToFirst())             //判断是否有数据  有数据则遍历
+        {
+            c = mydb.query();
+            while (c.moveToNext()) {
+                type = c.getString(5);
+            }
+            c.close();
+        }
+        else
+        {
+            c.close();
+        }
+
         HttpRequest();
         error.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,11 +87,15 @@ public class Article_Details extends SwipeBackActivity implements Analytic_inter
             }
         });
 
+
+
     }
 
     private void iniView() {
         tv_title = (TextView) findViewById(R.id.title);
+        edit_title = (EditText) findViewById(R.id.edit_title);
         tv_text = (TextView) findViewById(R.id.text);
+        edit_text = (TextView) findViewById(R.id.edit_text);
         tv_author = (TextView) findViewById(R.id.author);
         tv_zan = (TextView) findViewById(R.id.zan);
         tv_comment_numb = (TextView) findViewById(R.id.comment_numb);
@@ -112,12 +139,21 @@ public class Article_Details extends SwipeBackActivity implements Analytic_inter
                 });
     }
 
-
     @Override
     public void onAnalysisJson(String json) {
         Poetry_analysis texts = JSON.parseObject(json, Poetry_analysis.class);
-        tv_title.setText(texts.getData().get(0).getPoetry_title());
-        tv_text.setText(texts.getData().get(0).getPoetry_context());
+        if(type!=null&&type.equals("0")) {
+            edit_title.setText(texts.getData().get(0).getPoetry_title());
+            edit_text.setText(texts.getData().get(0).getPoetry_context());
+            tv_title.setVisibility(View.GONE);
+            tv_text.setVisibility(View.GONE);
+        }
+        else {
+            tv_title.setText(texts.getData().get(0).getPoetry_title());
+            tv_text.setText(texts.getData().get(0).getPoetry_context());
+            edit_title.setVisibility(View.GONE);
+            edit_text.setVisibility(View.GONE);
+        }
         tv_author.setText(texts.getData().get(0).getPoetry_author());
         tv_zan.setText(texts.getData().get(0).getPoetry_praise_numb());
         tv_comment_numb.setText(texts.getData().get(0).getPoetry_praise_comment());

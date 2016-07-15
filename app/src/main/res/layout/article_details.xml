@@ -30,7 +30,7 @@
             android:gravity="center_horizontal"
             android:maxLines="1"
             android:textColor="#000000"
-            android:textSize="17sp"/>
+            android:textSize="17sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -43,6 +43,33 @@
             android:paddingRight="40dp"
             android:textColor="#707070"
             android:paddingBottom="5dp"/>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp"
+            android:id="@+id/edit_title"
+            android:gravity="center_horizontal"
+            android:maxLines="1"
+            android:textColor="#000000"
+            android:textSize="17sp"
+            android:background="@null"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingMultiplier="2"
+            android:layout_gravity="center"
+            android:gravity="left"
+            android:id="@+id/edit_text"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:textColor="#707070"
+            android:paddingBottom="5dp"
+            android:background="@null"
+            android:textSize="14sp"/>
     </LinearLayout>
 
 
@@ -110,7 +137,7 @@
                 android:background="#ffffff"
                 android:gravity="center"
                 android:textSize="16sp"
-                android:id="@+id/error"/>
+                android:id="@+id/error" />
 
         </LinearLayout>
     </ScrollView>
@@ -120,7 +147,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/list"></ListView>
-
 
 
 </LinearLayout>

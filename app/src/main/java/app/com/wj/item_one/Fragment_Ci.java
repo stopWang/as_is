@@ -185,7 +185,6 @@ public class Fragment_Ci extends Fragment implements Analytic_interface{
     @Override
     public void onAnalysisJson(String json) {
         if(json.indexOf("errorcode")>0) {
-
             if(page == 1)
             {
                 adapter.getList().clear();

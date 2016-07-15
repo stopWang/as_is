@@ -61,7 +61,8 @@ public class Fragment_left extends Fragment implements Analytic_interface {
     private ImageView img;
     public static final int PHOTOZOOM = 0x2222; // 相册
     public static final int PHOTOTAKE = 0x1111; // 拍照
-    private String pathUrl = Environment.getExternalStorageDirectory()+"/如是/";
+    private static final int REQUEST_CODE = 100;
+    private String pathUrl = Environment.getExternalStorageDirectory().getPath()+"/ai_is/";
     private String imageName = null;  			//用于获取时间做图片名称
     private String FileNmae = null;				//用于最后上传的图片名称
     private List Delect_filenames = new ArrayList<String>();		//由于图片旋转如果生成了删图片统一加进集合关闭界面时删除
@@ -80,6 +81,8 @@ public class Fragment_left extends Fragment implements Analytic_interface {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        File files = new File(pathUrl);
+        files.mkdirs();// 创建文件夹
         btn_ok = (TextView) v.findViewById(R.id.btn_ok);
         img = (ImageView) v.findViewById(R.id.img);
         mydb = new MyDB(getActivity());
@@ -153,9 +156,8 @@ public class Fragment_left extends Fragment implements Analytic_interface {
                 final Bitmap bitmap = (Bitmap) bundle.get("data");// 获取相机返回的数据，并转换为Bitmap图片格式
                 //img.setImageBitmap(bitmap);
                 FileOutputStream b = null;
-                File files = new File("/sdcard/myImage/");
-                files.mkdirs();// 创建文件夹
-                FileNmae = "/sdcard/myImage/img_logo.jpg";
+
+                FileNmae = pathUrl+"img_logo.jpg";
 
                 try {
                     b = new FileOutputStream(FileNmae);
@@ -186,6 +188,48 @@ public class Fragment_left extends Fragment implements Analytic_interface {
                 setXzprc(readPictureDegree(FileNmae), FileNmae);
                 postPrc();
 
+                break;
+            case REQUEST_CODE:
+
+                Uri originalUri = data.getData();        //获得图片的uri
+                //获取选中图片的bitmap
+                Bitmap bm = null;
+
+                //外界的程序访问ContentProvider所提供数据 可以通过ContentResolver接口
+
+                ContentResolver resolver = getActivity().getContentResolver();
+
+                try {
+                    bm = MediaStore.Images.Media.getBitmap(resolver, originalUri);        //显得到bitmap图片
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                //获取选中图片的路径
+                String[] proj2 = {MediaStore.Images.Media.DATA};
+
+                //好像是android多媒体数据库的封装接口，具体的看Android文档
+
+                Cursor cursor = getActivity().managedQuery(originalUri, proj2, null, null, null);
+
+                //按我个人理解 这个是获得用户选择的图片的索引值
+
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+                //将光标移至开头 ，这个很重要，不小心很容易引起越界
+
+                cursor.moveToFirst();
+
+                //最后根据索引值获取图片路径
+                FileNmae = cursor.getString(column_index);
+                //Toast.makeText(getActivity(),FileNmae+"长度"+column_index,Toast.LENGTH_SHORT).show();
+                try {
+                    saveFile(bm);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                postPrc();
+                img.setImageBitmap(bm);
                 break;
             default:
                 break;
@@ -319,6 +363,12 @@ public class Fragment_left extends Fragment implements Analytic_interface {
                 // TODO Auto-generated method stub
                 dialog.dismiss();
                 doPickPhotoFromGallery();
+                //打开手机中的相册
+//                Intent innerIntent = new Intent(Intent.ACTION_GET_CONTENT,null); //"android.intent.action.GET_CONTENT ACTION_GET_CONTENT"
+//                //Intent innerIntent = new Intent(Intent.ACTION_PICK,null); //"android.intent.action.GET_CONTENT"
+//                innerIntent.setType("image/*");
+//                Intent wrapperIntent = Intent.createChooser(innerIntent, "选择图片");
+//                startActivityForResult(wrapperIntent, REQUEST_CODE);
             }
         });
 
