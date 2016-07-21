@@ -48,10 +48,17 @@ public class Public_Resources {
     public final static String Details = "servlet/item/GetDetails?";
 
     /**
+     * 获取轮播图
+     */
+    public final static String CarouselFigure = "servlet/item/GetCarouselFigure";
+    /**
      * 诗词报错接口
      */
     public final static String ReportError = "servlet/item/ReportError?";
-
+    /**
+     * 修改诗词
+     */
+    public final static String ModifyPoetry = "servlet/item/modifyPoetry?";
     /**
      * 数据库名称
      */

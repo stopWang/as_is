@@ -22,7 +22,9 @@ import android.widget.Toast;
 
 import com.xb.pulltorefresh.pullableview.Pullable;
 
+import app.com.wj.application.MainApplication;
 import app.com.wj.as_is.R;
+import app.com.wj.tool.DensityUtil;
 
 /**
  * 自定义的布局，用来管理三个子控件，其中一个是下拉头，一个是包含内容的pullableView（可以是实现Pullable接口的的任何View），
@@ -395,9 +397,12 @@ public class PullToRefreshLayout extends RelativeLayout
 		case MotionEvent.ACTION_MOVE:
 			if (mEvents == 0)
 			{
+				System.out.println("dp="+DensityUtil.px2dip(MainApplication.getContext(),(int)ev.getY()));
+				System.out.println(ev.getY());
 				if (pullDownY > 0
 						|| (((Pullable) pullableView).canPullDown()
-								&& canPullDown && state != LOADING))
+								&& canPullDown && state != LOADING)
+						&&DensityUtil.px2dip(MainApplication.getContext(), (int) ev.getY())>160)
 				{
 					// 可以下拉，正在加载时不能下拉
 					// 对实际滑动距离做缩小，造成用力拉的感觉

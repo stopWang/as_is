@@ -1,4 +1,4 @@
-package app.com.wj.as_is;
+package app.com.wj.view.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
+import app.com.wj.as_is.R;
 import app.com.wj.item_four.Publish_Poetry;
 import app.com.wj.tool.Analytic_interface;
 import app.com.wj.tool.Public_Resources;

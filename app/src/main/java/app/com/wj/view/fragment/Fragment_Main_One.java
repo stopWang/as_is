@@ -1,4 +1,4 @@
-package app.com.wj.as_is;
+package app.com.wj.view.fragment;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.com.wj.MySql.MyDB;
+import app.com.wj.as_is.R;
 import app.com.wj.item_one.Fragment_Ci;
 import app.com.wj.item_one.Fragment_Gufeng;
 import app.com.wj.item_one.Fragment_Jueju;

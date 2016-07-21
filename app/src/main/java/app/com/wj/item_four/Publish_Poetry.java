@@ -1,25 +1,18 @@
 package app.com.wj.item_four;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
-import app.com.wj.analysis.Poetry_analysis;
-import app.com.wj.as_is.Poetry_Error;
 import app.com.wj.as_is.R;
 import app.com.wj.tool.Analytic_interface;
-import app.com.wj.tool.Public_Resources;
 import app.com.wj.tool.SwipeBackActivity;
 
 /**

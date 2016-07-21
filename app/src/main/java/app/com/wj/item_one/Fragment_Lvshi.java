@@ -9,35 +9,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.BitmapUtils;
 import com.xb.pulltorefresh.pullableview.PullToRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.LogRecord;
 
 import app.com.wj.adapter.Lvshi_adapter;
-import app.com.wj.analysis.Poetry_analysis;
-import app.com.wj.as_is.Article_Details;
+import app.com.wj.view.activity.Article_Details;
 import app.com.wj.as_is.R;
-import app.com.wj.model.Lvshi_item;
+import app.com.wj.bean.ADInfo;
 import app.com.wj.model.Poetry;
-import app.com.wj.tool.Analytic_interface;
-import app.com.wj.tool.Public_Resources;
+import app.com.wj.presenter.Home_One_Presenter;
+import app.com.wj.tool.ImageCycleView;
+import app.com.wj.view.IHomeOneView;
 
 /**
  * Created by Administrator on 2016/3/25.
  * 律诗
  */
-public class Fragment_Lvshi extends Fragment implements Analytic_interface{
+public class Fragment_Lvshi extends Fragment implements ImageCycleView.ImageCycleViewListener,IHomeOneView{
     private View v;
     private ListView list;
     private Lvshi_adapter adapter;
@@ -50,10 +45,12 @@ public class Fragment_Lvshi extends Fragment implements Analytic_interface{
     private final int LoadMore_SUCCEED = 0x1113;		//上拉加载成功
     private final int LoadMore_FAIL = 0x1114;			//上拉加载失败
     private Handler mHandler = null;
-
+    private ImageCycleView adView = null;               //轮播图
+    private BitmapUtils bitmapUtils = null;
+    private Home_One_Presenter presenter = null;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.listview,container,false);
+        v = inflater.inflate(R.layout.home_one_lvshi,container,false);
         return v;
     }
 
@@ -61,14 +58,14 @@ public class Fragment_Lvshi extends Fragment implements Analytic_interface{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         iniView();
-        HttpRequest();
-
+        presenter.pullAdtData();
+        presenter.pullListData(page);
         ptrl.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
                 // 下拉刷新操作
                 page = 1;
-                HttpRequest();
+                presenter.pullListData(page);
                 mHandler = null;
                 mHandler = new Handler() {
                     @Override
@@ -76,10 +73,10 @@ public class Fragment_Lvshi extends Fragment implements Analytic_interface{
                         super.handleMessage(msg);
                         switch (msg.what) {
                             case Refresh_SUCCEED:
-                                pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+                                pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);     //通知刷新成功
                                 break;
                             case Refresh_FAIL:
-                                pullToRefreshLayout.refreshFinish(PullToRefreshLayout.FAIL);
+                                pullToRefreshLayout.refreshFinish(PullToRefreshLayout.FAIL);        //通知刷新失败
                                 break;
                             default:
                                 break;
@@ -92,7 +89,7 @@ public class Fragment_Lvshi extends Fragment implements Analytic_interface{
             public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
                 // 上拉加载操作
                 page++;
-                HttpRequest();
+                presenter.pullListData(page);
                 mHandler = null;
                 mHandler = new Handler() {
                     @Override
@@ -100,10 +97,14 @@ public class Fragment_Lvshi extends Fragment implements Analytic_interface{
                         // TODO Auto-generated method stub
                         switch (msg.what) {
                             case LoadMore_SUCCEED:
-                                pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+                                pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);    //通知加载成功
                                 break;
                             case LoadMore_FAIL:
-                                pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.FAIL);
+                                if(page > 1 )
+                                {
+                                    page --;
+                                }
+                                pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.FAIL);       //通知加载失败
                                 break;
                             default:
                                 break;
@@ -134,102 +135,11 @@ public class Fragment_Lvshi extends Fragment implements Analytic_interface{
         adapter = new Lvshi_adapter(getActivity());
         list.setAdapter(adapter);
         ptrl = (PullToRefreshLayout) v.findViewById(R.id.refresh_view);
+        adView = (ImageCycleView) v.findViewById(R.id.ad_view);
+        bitmapUtils = new BitmapUtils(getActivity());
+        presenter = new Home_One_Presenter(this);
     }
 
-    //数据请求 使用xurls框架
-    public void HttpRequest() {
-
-        url = Public_Resources.URL+Public_Resources.LVSHI+"page="+page;
-        System.out.println(url);
-        HttpUtils httpUtils = new HttpUtils(10000);
-        httpUtils.configCurrentHttpCacheExpiry(10*60*1000);   //设置缓存10分钟
-        httpUtils.send(HttpRequest.HttpMethod.GET,
-                url,
-                new RequestCallBack<String>() {
-                    @Override
-                    public void onStart() {
-                        System.out.println("开始请求");
-                    }
-
-                    @Override
-                    public void onLoading(long total, long current, boolean isUploading) {
-                        System.out.println("正在加载：共" + total + "个字节，当前：" + current);
-                    }
-
-                    @Override
-                    public void onSuccess(ResponseInfo<String> stringResponseInfo) {
-                        String r = stringResponseInfo.result;
-                        System.out.println(r);
-
-                        onAnalysisJson(r);
-
-                        if(page == 1)
-                        {
-                            sendMessage(Refresh_SUCCEED);
-                        }
-                        else
-                        {
-                            sendMessage(LoadMore_SUCCEED);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(HttpException e, String s) {
-                        Toast.makeText(getActivity(), "请求失败请检查网络", Toast.LENGTH_SHORT).show();
-                        if(page == 1)
-                        {
-                            sendMessage(Refresh_FAIL);
-                        }
-                        else
-                        {
-                            if(page > 1 )
-                            {
-                                page --;
-                            }
-                            sendMessage(LoadMore_FAIL);
-                        }
-                    }
-                });
-    }
-
-
-    @Override
-    public void onAnalysisJson(String json) {
-        if(json.indexOf("errorcode")>0) {
-
-            if(page == 1)
-            {
-                adapter.getList().clear();
-            }
-
-            Poetry_analysis texts = JSON.parseObject(json, Poetry_analysis.class);
-            if(texts.getErrorcode() == 0)
-            {
-                contexts = texts.getData();
-                for(int i = 0;i<contexts.size();i++) {
-                    adapter.getList().add(contexts.get(i));
-                }
-                adapter.notifyDataSetChanged();
-            }
-            else
-            {
-                if(page > 1 )
-                {
-                    page --;
-                }
-                Toast.makeText(getActivity(), texts.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }
-        else
-        {
-            if(page > 1 )
-            {
-                page --;
-            }
-            Toast.makeText(getActivity(), "服务器异常", Toast.LENGTH_SHORT).show();
-        }
-
-    }
 
     /**
      * 刷新或加载完向handler发送消息
@@ -240,5 +150,69 @@ public class Fragment_Lvshi extends Fragment implements Analytic_interface{
             mHandler.sendMessage(message);
         }
     }
+    //轮播图显示
+    @Override
+    public void displayImage(String imageURL, ImageView imageView) {
+        bitmapUtils.display(imageView, imageURL);
+    }
+    //轮播图点击事件
+    @Override
+    public void onImageClick(ADInfo info, int postion, View imageView) {
+        if(info.getContent()!=null&&info.getContent().length()>0) {
+            Toast.makeText(getActivity(),"点击了第"+postion+"项",Toast.LENGTH_LONG).show();
+        }
+        else
+        {
 
+        }
+    }
+    //轮播图数据
+    @Override
+    public void setAdvertisement(ArrayList<ADInfo> infos) {
+        if(infos!=null&&infos.size()>0) {
+            adView.setVisibility(View.VISIBLE);
+            adView.setImageResources(infos, Fragment_Lvshi.this);
+        }
+        else
+        {
+            adView.setVisibility(View.GONE);
+        }
+    }
+    //listview数据填充
+    @Override
+    public void setListViewData(List<Poetry> data) {
+
+        if(page == 1)
+        {
+            adapter.getList().clear();
+        }
+            for(int i = 0;i<data.size();i++) {
+                adapter.getList().add(data.get(i));
+            }
+            adapter.notifyDataSetChanged();
+    }
+    //是否刷新成功
+    @Override
+    public void Refresh(boolean isSuccess) {
+        if(isSuccess)
+        {
+            sendMessage(Refresh_SUCCEED);
+        }
+        else
+        {
+            sendMessage(Refresh_FAIL);
+        }
+    }
+    //是否加载成功
+    @Override
+    public void Load(boolean isSuccess) {
+        if(isSuccess)
+        {
+            sendMessage(LoadMore_SUCCEED);
+        }
+        else
+        {
+            sendMessage(LoadMore_FAIL);
+        }
+    }
 }

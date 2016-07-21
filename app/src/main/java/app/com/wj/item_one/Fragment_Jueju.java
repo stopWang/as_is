@@ -25,7 +25,7 @@ import java.util.List;
 
 import app.com.wj.adapter.Lvshi_adapter;
 import app.com.wj.analysis.Poetry_analysis;
-import app.com.wj.as_is.Article_Details;
+import app.com.wj.view.activity.Article_Details;
 import app.com.wj.as_is.R;
 import app.com.wj.model.Poetry;
 import app.com.wj.tool.Analytic_interface;

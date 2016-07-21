@@ -7,9 +7,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:name="app.com.wj.application.MainApplication">
         <activity
-            android:name=".MainActivity"
+            android:name="app.com.wj.view.activity.MainActivity"
             android:label="@string/app_name"
             >
 
@@ -24,8 +25,8 @@
         <activity android:name=".Register"></activity>
         <activity android:name="app.com.wj.item_therr.fill_blanks.Fill_Blanks" android:theme="@android:style/Theme.Translucent"></activity>
         <activity android:name="app.com.wj.item_therr.Author_Title" android:theme="@android:style/Theme.Translucent"></activity>
-        <activity android:name="app.com.wj.as_is.Article_Details" android:theme="@android:style/Theme.Translucent"></activity>
-        <activity android:name="app.com.wj.as_is.Poetry_Error" android:theme="@android:style/Theme.Translucent"></activity>
+        <activity android:name="app.com.wj.view.activity.Article_Details" android:theme="@android:style/Theme.Translucent"></activity>
+        <activity android:name="app.com.wj.view.activity.Poetry_Error" android:theme="@android:style/Theme.Translucent"></activity>
         <activity android:name="app.com.wj.item_four.Publish_Poetry" android:theme="@android:style/Theme.Translucent"></activity>
 
 

@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.text.Editable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -22,14 +21,11 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import app.com.wj.MySql.MyDB;
-import app.com.wj.tool.Analytic;
 import app.com.wj.tool.Analytic_interface;
 import app.com.wj.tool.Public_Resources;
 import app.com.wj.tool.user1;
+import app.com.wj.view.activity.MainActivity;
 
 /**
  * Created by Administrator on 2016/3/25.

@@ -1,4 +1,4 @@
-package app.com.wj.as_is;
+package app.com.wj.view.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
@@ -10,6 +10,13 @@ import android.widget.TabHost;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
+
+import app.com.wj.as_is.R;
+import app.com.wj.view.fragment.Fragment_Main_Four;
+import app.com.wj.view.fragment.Fragment_Main_One;
+import app.com.wj.view.fragment.Fragment_Main_Three;
+import app.com.wj.view.fragment.Fragment_Main_Tow;
+import app.com.wj.view.fragment.Fragment_left;
 
 public class MainActivity extends SlidingFragmentActivity implements Fragment_Main_One.Closemenu{
     private int[] drawables = {

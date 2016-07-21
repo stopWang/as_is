@@ -1,4 +1,4 @@
-package app.com.wj.as_is;
+package app.com.wj.view.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -47,6 +47,8 @@ import java.util.Date;
 import java.util.List;
 
 import app.com.wj.MySql.MyDB;
+import app.com.wj.as_is.Land;
+import app.com.wj.as_is.R;
 import app.com.wj.tool.Analytic;
 import app.com.wj.tool.Analytic_interface;
 import app.com.wj.tool.Public_Resources;
@@ -294,9 +296,6 @@ public class Fragment_left extends Fragment implements Analytic_interface {
             Toast.makeText(getActivity(), "上传类容不能为空", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
 
     /**
      * 旋转图片

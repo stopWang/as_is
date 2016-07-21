@@ -1,4 +1,4 @@
-package app.com.wj.as_is;
+package app.com.wj.view.activity;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -21,7 +19,7 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
 import app.com.wj.MySql.MyDB;
-import app.com.wj.analysis.Poetry_analysis;
+import app.com.wj.as_is.R;
 import app.com.wj.tool.Analytic;
 import app.com.wj.tool.Analytic_interface;
 import app.com.wj.tool.Public_Resources;

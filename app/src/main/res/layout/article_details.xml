@@ -55,7 +55,8 @@
             android:maxLines="1"
             android:textColor="#000000"
             android:textSize="17sp"
-            android:background="@null"/>
+            android:background="@null"
+            android:visibility="gone"/>
 
         <EditText
             android:layout_width="wrap_content"
@@ -69,7 +70,8 @@
             android:textColor="#707070"
             android:paddingBottom="5dp"
             android:background="@null"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            android:visibility="gone"/>
     </LinearLayout>
 
 
@@ -86,12 +88,23 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:id="@+id/tv1"
-            android:text="作者："/>
+            android:text="作者："
+            android:textSize="12sp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv1"
-            android:id="@+id/author" />
+            android:id="@+id/author"
+            android:textSize="12sp"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv1"
+            android:id="@+id/ed_author"
+            android:textSize="12sp"
+            android:visibility="gone"
+            android:background="@null"
+            android:textColor="#707070"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -103,24 +116,28 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:id="@+id/tv2"
-                android:text="赞: "/>
+                android:text="赞: "
+                android:textSize="12sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:id="@+id/zan" />
+                android:id="@+id/zan"
+                android:textSize="12sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:id="@+id/tv3"
                 android:text="评论数: "
-                android:paddingLeft="7dp"/>
+                android:paddingLeft="7dp"
+                android:textSize="12sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:id="@+id/comment_numb" />
+                android:id="@+id/comment_numb"
+                android:textSize="12sp"/>
         </LinearLayout>
     </RelativeLayout>
 
@@ -138,6 +155,22 @@
                 android:gravity="center"
                 android:textSize="16sp"
                 android:id="@+id/error" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="确定修改"
+                android:textColor="#ff0000"
+                android:background="#ffffff"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:id="@+id/re_context"
+                android:visibility="gone"/>
 
         </LinearLayout>
     </ScrollView>

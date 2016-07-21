@@ -1,4 +1,4 @@
-package app.com.wj.as_is;
+package app.com.wj.view.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -51,6 +51,7 @@ import java.util.List;
 
 import app.com.wj.MySql.MyDB;
 import app.com.wj.adapter.Main_therr_adapter;
+import app.com.wj.as_is.R;
 import app.com.wj.item_therr.Author_Title;
 import app.com.wj.item_therr.fill_blanks.Fill_Blanks;
 import app.com.wj.tool.Analytic;
